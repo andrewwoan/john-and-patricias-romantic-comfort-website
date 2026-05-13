@@ -7,6 +7,14 @@ export class Environment {
   constructor() {
     this.experience = Experience.getInstance();
 
+    const geometry = new THREE.PlaneGeometry(10, 10);
+    const material = new THREE.MeshStandardNodeMaterial({
+      color: 0xffff00,
+      side: THREE.DoubleSide,
+    });
+    const plane = new THREE.Mesh(geometry, material);
+    this.experience.scene.add(plane);
+
     this.init();
   }
 
@@ -15,7 +23,8 @@ export class Environment {
 
     this.setupScene();
     this.setupDirectionalLight();
-    this.setupGobos();
+    this.setupProjectorLight();
+    // this.setupGobos();
   }
 
   setupScene() {
@@ -124,6 +133,102 @@ export class Environment {
       )
       .normalize();
     hatchUniforms.lightDirectionWorld.value.copy(dir);
+  }
+
+  setupProjectorLight() {
+    const goboTex = this.experience.resources.items.goboTexture;
+    goboTex.minFilter = THREE.LinearFilter;
+    goboTex.magFilter = THREE.LinearFilter;
+    goboTex.generateMipmaps = false;
+    goboTex.colorSpace = THREE.NoColorSpace;
+
+    this.projectorLight = new THREE.SpotLight("#ffffff", 50);
+    this.projectorLight.map = goboTex;
+    this.projectorLight.position.set(60, 75, 50);
+    this.projectorLight.angle = Math.PI / 8;
+    this.projectorLight.penumbra = 0.1;
+    this.projectorLight.decay = 0;
+    this.projectorLight.distance = 0;
+    this.projectorLight.castShadow = true;
+    this.projectorLight.shadow.mapSize.width = 1024;
+    this.projectorLight.shadow.mapSize.height = 1024;
+    this.projectorLight.shadow.camera.near = 0.1;
+    this.projectorLight.shadow.camera.far = 200;
+    this.projectorLight.shadow.focus = 1;
+    this.experience.scene.add(this.projectorLight);
+
+    this.projectorLight.target.position.set(8, 10, -23);
+    this.experience.scene.add(this.projectorLight.target);
+
+    this.projectorLightHelper = new THREE.SpotLightHelper(this.projectorLight);
+    this.projectorLightHelper.visible = true;
+    this.experience.scene.add(this.projectorLightHelper);
+
+    this.projectorShadowHelper = new THREE.CameraHelper(
+      this.projectorLight.shadow.camera,
+    );
+    this.projectorShadowHelper.visible = true;
+    this.experience.scene.add(this.projectorShadowHelper);
+
+    const folder = this.gui.addFolder("Projector Light");
+
+    const onMove = () => {
+      this.projectorLightHelper.update();
+      this.projectorShadowHelper.update();
+    };
+
+    folder
+      .addColor({ color: "#ffffff" }, "color")
+      .name("Color")
+      .onChange((val) => this.projectorLight.color.set(val));
+    folder.add(this.projectorLight, "intensity", 0, 500, 1).name("Intensity");
+    folder
+      .add(this.projectorLight, "angle", 0, Math.PI / 3, 0.01)
+      .name("Angle");
+    folder.add(this.projectorLight, "penumbra", 0, 1, 0.01).name("Penumbra");
+    folder.add(this.projectorLight, "decay", 0, 4, 0.01).name("Decay");
+    folder.add(this.projectorLight, "distance", 0, 500, 1).name("Distance");
+    folder
+      .add(this.projectorLight.shadow, "focus", 0, 1, 0.01)
+      .name("Shadow Focus");
+    folder.add(this.projectorLight, "visible").name("Visible");
+
+    const pos = folder.addFolder("Position");
+    pos
+      .add(this.projectorLight.position, "x", -100, 100, 0.1)
+      .name("X")
+      .onChange(onMove);
+    pos
+      .add(this.projectorLight.position, "y", -100, 100, 0.1)
+      .name("Y")
+      .onChange(onMove);
+    pos
+      .add(this.projectorLight.position, "z", -100, 100, 0.1)
+      .name("Z")
+      .onChange(onMove);
+
+    const tgt = folder.addFolder("Target");
+    tgt
+      .add(this.projectorLight.target.position, "x", -50, 50, 0.1)
+      .name("X")
+      .onChange(onMove);
+    tgt
+      .add(this.projectorLight.target.position, "y", -50, 50, 0.1)
+      .name("Y")
+      .onChange(onMove);
+    tgt
+      .add(this.projectorLight.target.position, "z", -50, 50, 0.1)
+      .name("Z")
+      .onChange(onMove);
+
+    folder
+      .add(this.projectorLightHelper, "visible")
+      .name("Show Helper")
+      .setValue(true);
+    folder
+      .add(this.projectorShadowHelper, "visible")
+      .name("Show Shadow Frustum")
+      .setValue(true);
   }
 
   setupGobos() {

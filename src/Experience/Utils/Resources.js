@@ -28,6 +28,11 @@ export class Resources extends EventEmitter {
         this.loaders.cubeTextureLoader.load(asset.path, (file) => {
           this.singleAssetLoaded(asset.name, file);
         });
+      } else if (asset.type === "texture") {
+        this.loaders.textureLoader.load(asset.path, (file) => {
+          file.colorSpace = THREE.SRGBColorSpace;
+          this.singleAssetLoaded(asset.name, file);
+        });
       }
     }
   }

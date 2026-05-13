@@ -17,5 +17,6 @@ export class Loaders {
     this.loaders.imageBitmapLoader = new THREE.ImageBitmapLoader();
     this.loaders.imageBitmapLoader.setOptions({ imageOrientation: "flipY" });
     this.loaders.cubeTextureLoader = new THREE.CubeTextureLoader();
+    this.loaders.textureLoader = new THREE.TextureLoader();
   }
 }

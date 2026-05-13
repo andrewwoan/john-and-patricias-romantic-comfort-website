@@ -15,9 +15,9 @@ export default [
     path: "/models/love_you.glb",
   },
   {
-    name: "gobos",
-    type: "glbModel",
-    path: "/models/gobos.glb",
+    name: "goboTexture",
+    type: "texture",
+    path: "/textures/gobo.png",
   },
   {
     name: "skybox",
