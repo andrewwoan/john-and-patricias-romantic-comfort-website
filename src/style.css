@@ -1,0 +1,100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow: hidden;
+}
+
+#experience-wrapper {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+}
+
+#experience-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Modals */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 200px;
+  z-index: 10;
+  background-color: black;
+  color: white;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-open {
+  pointer-events: auto;
+}
+
+.modal__wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+}
+
+.modal__title {
+}
+
+.modal__paragraph {
+}
+
+.modal__close-button {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+}
+
+.modal__close-button:hover {
+  cursor: pointer;
+}
+
+/* Preloader */
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #282828;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preloader__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.preloader__progress-wrapper {
+  width: 450px;
+  height: 10px;
+  background: #4e4e4e;
+  border-radius: 50px;
+}
+
+.preloader__progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #ead83a;
+  border-radius: 50px;
+  transition: width 0.3s ease;
+}

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"c:\\\\\\\\Users\\\\\\\\andre\\\\\\\\My Stuff\\\\\\\\VS Code Projects\\\\\\\\john-and-patricia\" -type f -name \"*.js\" -o -name \"*.glb\" -o -name \"*.json\")"
+    ]
+  }
+}

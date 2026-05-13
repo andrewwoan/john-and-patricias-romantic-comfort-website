@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__blender__get_blendfile_summary_datablocks",
+      "mcp__blender__get_objects_summary",
+      "mcp__blender__get_screenshot_of_window_as_image",
+      "mcp__blender__execute_blender_code",
+      "mcp__blender__jump_to_view3d_object_by_name",
+      "mcp__blender__get_screenshot_of_area_as_image",
+      "WebSearch",
+      "WebFetch(domain:threejsroadmap.com)",
+      "WebFetch(domain:sbcode.net)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:code4fukui.github.io)"
+    ]
+  }
+}
